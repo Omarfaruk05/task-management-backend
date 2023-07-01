@@ -15,4 +15,24 @@ export type IUser = {
   income: number;
 };
 
+export type IUserResponse = {
+  phoneNumber: string;
+  role: "seller" | "buyer";
+  password?: string;
+  name: UserName;
+  address: string;
+  budget: number;
+  income: number;
+};
+
 export type UserModel = Model<IUser, Record<string, unknown>>;
+
+export type ILoginUser = {
+  phoneNumber: string;
+  password: string;
+};
+
+export type ILoginUserResponse = {
+  accessToken: string;
+  refreshToken?: string;
+};

@@ -12,6 +12,13 @@ export type IAdmin = {
   name: AdminName;
   address: string;
 };
+export type IAdminResponse = {
+  password?: string;
+  phoneNumber: string;
+  role: "admin";
+  name: AdminName;
+  address: string;
+};
 
 export type AdminModel = Model<IAdmin, Record<string, unknown>>;
 

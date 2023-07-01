@@ -1,13 +1,18 @@
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
-import { IAdmin, ILoginAdmin, ILoginAdminResponse } from "./admin.interfece";
+import {
+  IAdmin,
+  IAdminResponse,
+  ILoginAdmin,
+  ILoginAdminResponse,
+} from "./admin.interfece";
 import { Admin } from "./admin.model";
 import { jwtHelpers } from "../../../helpers/jwtHalpers";
 import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import bcrypt from "bcrypt";
 
-const createAdminService = async (payload: IAdmin): Promise<IAdmin> => {
+const createAdminService = async (payload: IAdmin): Promise<IAdminResponse> => {
   const isExist = await Admin.findOne({ phoneNumber: payload.phoneNumber });
   if (isExist) {
     throw new ApiError(
@@ -32,7 +37,10 @@ const loginAdminService = async (
     throw new ApiError(httpStatus.NOT_FOUND, "Admin does not exist.");
   }
 
-  const isPasswordMatched = bcrypt.compare(password, isAdminExist.password);
+  const isPasswordMatched = await bcrypt.compare(
+    password,
+    isAdminExist.password
+  );
   if (isAdminExist.password && !isPasswordMatched) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Password is incorrect.");
   }
