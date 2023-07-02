@@ -8,6 +8,8 @@ import { IGenericResponse } from "../../../interfaces/common";
 import { cowSearchableFields } from "./cow.constant";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
+import { IVerifiedUser } from "../user/user.interface";
+import { JwtPayload } from "jsonwebtoken";
 
 const createCowService = async (cowData: ICow): Promise<ICow> => {
   const isExist = await User.findById(cowData.seller);
@@ -99,8 +101,18 @@ const getSingleCowService = async (id: string): Promise<ICow | null> => {
 
 const updateCowService = async (
   id: string,
-  updatedData: Partial<ICow>
+  updatedData: Partial<ICow>,
+  user: any
 ): Promise<ICow | null> => {
+  const { _id } = user;
+  const cow = await Cow.findOne({ seller: _id });
+
+  if (!cow) {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "Can't update the cow because this is not your cow."
+    );
+  }
   const result = await Cow.findOneAndUpdate({ _id: id }, updatedData, {
     new: true,
   });
@@ -108,7 +120,19 @@ const updateCowService = async (
   return result;
 };
 
-const deleteCowService = async (id: string): Promise<ICow | null> => {
+const deleteCowService = async (
+  id: string,
+  user: any
+): Promise<ICow | null> => {
+  const { _id } = user;
+  const cow = await Cow.findOne({ seller: _id });
+
+  if (!cow) {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "Can't Delete the cow because this is not your cow."
+    );
+  }
   const result = await Cow.findByIdAndDelete(id);
 
   return result;

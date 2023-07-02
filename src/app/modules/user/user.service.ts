@@ -1,8 +1,8 @@
-import { IUser } from "./user.interface";
+import { IUser, IUserResponse } from "./user.interface";
 import { User } from "./user.model";
 
-const getAllUserService = async (): Promise<IUser[] | null> => {
-  const result = await User.find();
+const getAllUserService = async (): Promise<IUserResponse[] | null> => {
+  const result = await User.find({}, { password: 0 });
 
   return result;
 };
@@ -30,9 +30,28 @@ const deleteUserService = async (id: string): Promise<IUser | null> => {
   return result;
 };
 
+const getMyProfileService = async (
+  user: any
+): Promise<IUserResponse | null> => {
+  const result = await User.findById(user._id, { password: 0 });
+
+  return result;
+};
+const updateMyProfileService = async (
+  user: any,
+  updatedData: Partial<IUser>
+): Promise<IUserResponse | null> => {
+  const result = await User.findOneAndUpdate({ _id: user._id }, updatedData, {
+    new: true,
+  });
+  return result;
+};
+
 export const UserService = {
   getAllUserService,
   getSingleUserService,
   updateUserService,
   deleteUserService,
+  getMyProfileService,
+  updateMyProfileService,
 };

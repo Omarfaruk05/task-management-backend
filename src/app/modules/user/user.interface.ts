@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model, StringSchemaDefinition } from "mongoose";
 
 export type UserName = {
   firstName: string;
@@ -35,4 +35,11 @@ export type ILoginUser = {
 export type ILoginUserResponse = {
   accessToken: string;
   refreshToken?: string;
+};
+
+export type IVerifiedUser = {
+  _id: string;
+  role: String;
+  iat?: number;
+  exp?: number;
 };

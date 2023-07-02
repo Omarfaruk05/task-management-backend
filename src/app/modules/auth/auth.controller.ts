@@ -9,6 +9,7 @@ import {
 import httpStatus from "http-status";
 import { AuthService } from "./auth.service";
 import config from "../../../config";
+import { IRefreshTokenResponse } from "../admin/admin.interfece";
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const { ...userData } = req.body;
@@ -40,12 +41,35 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse<ILoginUserResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "User login successful.",
+    message: "User logged in successfully.",
     data: others,
+  });
+});
+
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const { refreshToken } = req.cookies;
+  console.log(req.cookies);
+
+  const result = await AuthService.refreshTokenService(refreshToken);
+
+  // set refresh token into cookie
+  const cookieOptions = {
+    secure: config.env === "production",
+    httpOnly: true,
+  };
+
+  res.cookie("refreshToken", refreshToken, cookieOptions);
+
+  sendResponse<IRefreshTokenResponse>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Your login is successfull.",
+    data: result,
   });
 });
 
 export const AuthController = {
   createUser,
   loginUser,
+  refreshToken,
 };

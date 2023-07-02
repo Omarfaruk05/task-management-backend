@@ -16,4 +16,4 @@ router.post(
   AdminController.loginAdmin
 );
 
-export const AdminRoute = router;
+export const AdminRoutes = router;

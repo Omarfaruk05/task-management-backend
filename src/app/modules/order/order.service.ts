@@ -10,12 +10,7 @@ const createOrderService = async (orderData: IOrder): Promise<IOrder> => {
   const session = await mongoose.startSession();
 
   const isBuyer = await User.findById(orderData.buyer);
-  if (!isBuyer) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "Please give me buyer id to buy."
-    );
-  }
+
   const avalibaleCow = await Cow.findById(orderData.cow);
   if (!avalibaleCow || avalibaleCow.label === "sold out") {
     throw new ApiError(
@@ -24,7 +19,7 @@ const createOrderService = async (orderData: IOrder): Promise<IOrder> => {
     );
   }
 
-  if (isBuyer.budget <= avalibaleCow.price) {
+  if (isBuyer && isBuyer.budget <= avalibaleCow.price) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
       "You need more money to byt this cow."
@@ -70,8 +65,73 @@ const createOrderService = async (orderData: IOrder): Promise<IOrder> => {
   return newOrderData;
 };
 
-const getAllOrderService = async (): Promise<IOrder[] | null> => {
-  const result = await Order.find();
+const getAllOrderService = async (user: any): Promise<IOrder[] | null> => {
+  let findData = {};
+  if (user.role === "buyer") {
+    findData = { buyer: user._id };
+  } else if (user.role === "seller") {
+    console.log("seller");
+
+    const result = await Order.find(findData).populate({
+      path: "cow",
+      match: { seller: user._id },
+    });
+    console.log(result);
+    const filteredOrders = result.filter((order) => order.cow !== null);
+    return filteredOrders;
+  } else if (user.role === "admin") {
+    findData = {};
+  }
+
+  const result = await Order.find(findData).populate("cow");
+
+  return result;
+};
+
+const getSingleOrderService = async (
+  id: string,
+  user: any
+): Promise<IOrder | null> => {
+  let findData = null;
+  if (user.role === "buyer") {
+    findData = { buyer: user._id };
+  } else if (user.role === "seller") {
+    console.log("seller");
+
+    const result = await Order.findOne({
+      _id: id,
+    })
+      .populate({
+        path: "cow",
+        match: { seller: user._id },
+        populate: {
+          path: "seller",
+        },
+      })
+      .populate("buyer");
+
+    if (!result) {
+      throw new ApiError(httpStatus.FORBIDDEN, "There is no order in this id.");
+    }
+
+    return result;
+  } else if (user.role === "admin") {
+    console.log(user.role);
+    findData = null;
+  }
+
+  const result = await Order.findOne({ _id: id, findData })
+    .populate({
+      path: "cow",
+      populate: {
+        path: "seller",
+      },
+    })
+    .populate("buyer");
+
+  if (!result) {
+    throw new ApiError(httpStatus.FORBIDDEN, "There is no order in this id.");
+  }
 
   return result;
 };
@@ -79,4 +139,5 @@ const getAllOrderService = async (): Promise<IOrder[] | null> => {
 export const OrderService = {
   createOrderService,
   getAllOrderService,
+  getSingleOrderService,
 };

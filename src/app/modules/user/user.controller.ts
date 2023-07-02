@@ -21,10 +21,6 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await UserService.getSingleUserService(id);
 
-  if (!result) {
-    throw new ApiError(httpStatus.OK, "No user found with this id");
-  }
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -58,9 +54,39 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const result = await UserService.getMyProfileService(user);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User's information retrieved successfully",
+    data: result,
+  });
+});
+
+const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const updatedData = req.body;
+  const result = await UserService.updateMyProfileService(user, updatedData);
+  if (result) {
+    result.password = undefined;
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User's information retrieved successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
+  getMyProfile,
+  updateMyProfile,
 };
