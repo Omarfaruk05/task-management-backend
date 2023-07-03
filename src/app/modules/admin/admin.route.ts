@@ -5,11 +5,13 @@ import validateRequest from "../../middlewares/validateRequest";
 
 const router = express.Router();
 
+// create admin route
 router.post(
   "/create-admin",
   validateRequest(AdminValidation.createAdminZodSchema),
   AdminController.createAdmin
 );
+// login admin route
 router.post(
   "/login",
   validateRequest(AdminValidation.AdminLoginZodSchema),
