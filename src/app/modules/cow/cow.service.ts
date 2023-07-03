@@ -97,7 +97,10 @@ const getAllCowsService = async (
 const getSingleCowService = async (id: string): Promise<ICow | null> => {
   const result = await Cow.findById(id);
   if (!result) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "There is no cow in this id.");
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Sorry, There is no cow with this id."
+    );
   }
 
   return result;
@@ -122,7 +125,7 @@ const updateCowService = async (
   if (updatedData.seller) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      "You can't update your seller id."
+      "You can't update cows seller id."
     );
   }
 
