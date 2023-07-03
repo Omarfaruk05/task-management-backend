@@ -99,7 +99,7 @@ const getAllCowsService = (filters, paginationOptions) => __awaiter(void 0, void
 const getSingleCowService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield cow_model_1.Cow.findById(id);
     if (!result) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "There is no cow in this id.");
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Sorry, There is no cow with this id.");
     }
     return result;
 });
@@ -111,7 +111,7 @@ const updateCowService = (id, updatedData, user) => __awaiter(void 0, void 0, vo
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Can't update the cow because this is not your cow.");
     }
     if (updatedData.seller) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "You can't update your seller id.");
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "You can't update cows seller id.");
     }
     const result = yield cow_model_1.Cow.findOneAndUpdate({ _id: id }, updatedData, {
         new: true,

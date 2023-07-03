@@ -48,8 +48,9 @@ const loginUserService = (loginData) => __awaiter(void 0, void 0, void 0, functi
     if (isUserExist.password && !isPasswordMatched) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Password is incorrect.");
     }
-    //token generating
+    // generating access token
     const accessToken = jwtHalpers_1.jwtHelpers.createToken({ _id: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist._id, role: isUserExist.role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
+    // generating refresh token
     const refreshToken = jwtHalpers_1.jwtHelpers.createToken({ _id: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist._id, role: isUserExist.role }, config_1.default.jwt.refresh_secret, config_1.default.jwt.refresh_expires_in);
     return {
         accessToken,
@@ -72,7 +73,7 @@ const refreshTokenService = (token) => __awaiter(void 0, void 0, void 0, functio
         if (!isUserExist) {
             throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User does not exist.");
         }
-        //generate new token
+        //generate new access token
         newAccessToken = jwtHalpers_1.jwtHelpers.createToken({ _id: isUserExist._id, role: isUserExist.role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
     }
     if (role === "buyer" || role === "seller") {
@@ -80,7 +81,7 @@ const refreshTokenService = (token) => __awaiter(void 0, void 0, void 0, functio
         if (!isUserExist) {
             throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User does not exist.");
         }
-        //generate new token
+        //generate new access token
         newAccessToken = jwtHalpers_1.jwtHelpers.createToken({ _id: isUserExist._id, role: isUserExist.role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
     }
     return {

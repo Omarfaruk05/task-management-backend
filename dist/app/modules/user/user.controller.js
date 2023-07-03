@@ -40,6 +40,9 @@ const updateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     const { id } = req.params;
     const updatedData = req.body;
     const result = yield user_service_1.UserService.updateUserService(id, updatedData);
+    if (result) {
+        result.password = undefined;
+    }
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -63,7 +66,7 @@ const getMyProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "User's information retrieved successfully",
+        message: "User's information recived successfully",
         data: result,
     });
 }));
@@ -77,7 +80,7 @@ const updateMyProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "User's information retrieved successfully",
+        message: "User's information updated successfully",
         data: result,
     });
 }));

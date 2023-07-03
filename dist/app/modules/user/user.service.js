@@ -16,7 +16,7 @@ const getAllUserService = () => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const getSingleUserService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.User.findById(id);
+    const result = yield user_model_1.User.findById(id, { password: 0 });
     return result;
 });
 const updateUserService = (id, updatedData) => __awaiter(void 0, void 0, void 0, function* () {
