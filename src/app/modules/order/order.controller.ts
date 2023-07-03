@@ -38,7 +38,7 @@ const getSingleOrder = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "All orders received successfully.",
+    message: "Order received successfully.",
     data: result,
   });
 });
