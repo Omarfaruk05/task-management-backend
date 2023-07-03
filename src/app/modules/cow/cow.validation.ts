@@ -23,6 +23,37 @@ const createCowZodSchema = z.object({
   }),
 });
 
+const updateCowZodSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    age: z
+      .number({
+        required_error: "Age is required.",
+      })
+      .optional(),
+    price: z
+      .number({
+        required_error: "Price is required.",
+      })
+      .optional(),
+    location: z.enum([...location] as [string, ...string[]]).optional(),
+    breed: z.enum([...breed] as [string, ...string[]]).optional(),
+    weight: z
+      .number({
+        required_error: "Weight is required.",
+      })
+      .optional(),
+    label: z.enum([...label] as [string, ...string[]]).optional(),
+    category: z.enum([...category] as [string, ...string[]]).optional(),
+    seller: z
+      .string({
+        required_error: "Seller id is required.",
+      })
+      .optional(),
+  }),
+});
+
 export const CowValidation = {
   createCowZodSchema,
+  updateCowZodSchema,
 };

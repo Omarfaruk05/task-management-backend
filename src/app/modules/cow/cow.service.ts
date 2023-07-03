@@ -8,9 +8,8 @@ import { IGenericResponse } from "../../../interfaces/common";
 import { cowSearchableFields } from "./cow.constant";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
-import { IVerifiedUser } from "../user/user.interface";
-import { JwtPayload } from "jsonwebtoken";
 
+// creat cow service
 const createCowService = async (cowData: ICow): Promise<ICow> => {
   const isExist = await User.findById(cowData.seller);
   if (!isExist) {
@@ -24,6 +23,7 @@ const createCowService = async (cowData: ICow): Promise<ICow> => {
   return result;
 };
 
+// get all cow service
 const getAllCowsService = async (
   filters: ICowFilters,
   paginationOptions: IPaginationOptions
@@ -93,12 +93,17 @@ const getAllCowsService = async (
   };
 };
 
+// creat single cow service
 const getSingleCowService = async (id: string): Promise<ICow | null> => {
   const result = await Cow.findById(id);
+  if (!result) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "There is no cow in this id.");
+  }
 
   return result;
 };
 
+// update cow service
 const updateCowService = async (
   id: string,
   updatedData: Partial<ICow>,
@@ -113,6 +118,14 @@ const updateCowService = async (
       "Can't update the cow because this is not your cow."
     );
   }
+
+  if (updatedData.seller) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "You can't update your seller id."
+    );
+  }
+
   const result = await Cow.findOneAndUpdate({ _id: id }, updatedData, {
     new: true,
   });
@@ -120,6 +133,7 @@ const updateCowService = async (
   return result;
 };
 
+// delete cow service
 const deleteCowService = async (
   id: string,
   user: any
@@ -130,7 +144,7 @@ const deleteCowService = async (
   if (!cow) {
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
-      "Can't Delete the cow because this is not your cow."
+      "Can't delete the cow because this is not your cow."
     );
   }
   const result = await Cow.findByIdAndDelete(id);

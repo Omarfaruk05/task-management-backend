@@ -9,6 +9,7 @@ import { paginationFields } from "../../constants/paginationConstants";
 import { ICow } from "./cow.interface";
 import { cowFilterableFields } from "./cow.constant";
 
+// creat cow controller
 const createCow = catchAsync(async (req: Request, res: Response) => {
   const { ...cowData } = req.body;
 
@@ -22,6 +23,7 @@ const createCow = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// get all cow controller
 const getAllCows = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, cowFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
@@ -37,6 +39,7 @@ const getAllCows = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// get single cow controller
 const getSingleCow = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await CowService.getSingleCowService(id);
@@ -53,6 +56,7 @@ const getSingleCow = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// update cow controller
 const updateCow = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const updatedData = req.body;
@@ -67,6 +71,7 @@ const updateCow = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// delete cow controller
 const deleteCow = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const user = req.user;
