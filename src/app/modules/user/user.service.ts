@@ -16,7 +16,7 @@ const getSingleUserService = async (id: string): Promise<IUser | null> => {
 const updateUserService = async (
   id: string,
   updatedData: Partial<IUser>
-): Promise<IUser | null> => {
+): Promise<IUserResponse | null> => {
   const result = await User.findOneAndUpdate({ _id: id }, updatedData, {
     new: true,
   });

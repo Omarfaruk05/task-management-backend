@@ -33,6 +33,9 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const updatedData = req.body;
   const result = await UserService.updateUserService(id, updatedData);
+  if (result) {
+    result.password = undefined;
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
