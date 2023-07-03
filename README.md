@@ -1,56 +1,49 @@
-# live link: [https://digital-cow-hut-umber.vercel.app]
+# live link: [https://cow-hut-as-4.vercel.app]
 
-# api endponits for users
+# Main Part
 
-(GET)
-[https://digital-cow-hut-umber.vercel.app/api/v1/users]
+## Auth(User)
 
-(POST)
-[https://digital-cow-hut-umber.vercel.app/api/v1/auth/signup]
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/auth/login] (POST)
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/auth/signup](POST)
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/auth/refresh-token] (POST)
 
-(Single GET) Include an id that is saved in your database
-[https://digital-cow-hut-umber.vercel.app/api/v1/users/6177a5b87d32123f08d2f5d4]
+## Auth(Admin)
 
-(PATCH)
-[https://digital-cow-hut-umber.vercel.app/api/v1/users/6177a5b87d32123f08d2f5d4]
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/admins/create-admin] (POST)
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/admins/login](POST)
 
-(DELETE) Include an id that is saved in your database
-[https://digital-cow-hut-umber.vercel.app/api/v1/users/6177a5b87d32123f08d2f5d4]
+## User
 
-# api endpoints for cows
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/users] (GET) Include an id that is saved in your database
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/users/6177a5b87d32123f08d2f5d4] (Single GET) Include an id that is saved in your database
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/users/6177a5b87d32123f08d2f5d4] (PATCH) Include an id that is saved in your database
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/users/6177a5b87d32123f08d2f5d4] (DELETE) Include an id that is saved in your database
 
-(POST)
-s
-[https://digital-cow-hut-umber.vercel.app/api/v1/cow]
+## Cows
 
-(GET)
-[https://digital-cow-hut-umber.vercel.app/api/v1/cows]
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/cows] (POST)
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/cows] (GET)
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/cows/6177a5b87d32123f08d2f5d4] (Single GET) Include an id that is saved in your database
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/cows/6177a5b87d32123f08d2f5d4] (PATCH) Include an id that is saved in your database
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/cows/6177a5b87d32123f08d2f5d4] (DELETE) Include an id that is saved in your database
 
-(Single GET) Include an id that is saved in your database
-[https://digital-cow-hut-umber.vercel.app/api/v1/cows/6177a5b87d32123f08d2f5d4]
+## Orders
 
-(PATCH)
-[https://digital-cow-hut-umber.vercel.app/api/v1/cows/6177a5b87d32123f08d2f5d4]
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/orders] (POST)
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/orders] (GET)
 
-(DELETE) Include an id that is saved in your database
-[https://digital-cow-hut-umber.vercel.app/api/v1/cows/6177a5b87d32123f08d2f5d4]
+# Bonus Part
 
-# Api endpoints for cows filtering
+## Admin
 
-[https://digital-cow-hut-umber.vercel.app/api/v1/cows?page=1&limit=10]
+-\* Route: [https://cow-hut-as-4.vercel.app/api/v1/admins/create-admin] (POST)
 
-[https://digital-cow-hut-umber.vercel.app/api/v1/cows?sortBy=price&sortOrder=asc]
+## My Profile
 
-[https://digital-cow-hut-umber.vercel.app/api/v1/cows?minPrice=20000&maxPrice=70000]
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/users/my-profile] (GET)
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/users/my-profile] (PATCH)
 
-[https://digital-cow-hut-umber.vercel.app/api/v1/cows?location=Chattogram]
+## Order
 
-[https://digital-cow-hut-umber.vercel.app/api/v1/cows?searchTerm=Cha]
-
-# Api endpoints for orders
-
-(POST)
-[https://digital-cow-hut-umber.vercel.app/api/v1/orders]
-
-(GET)
-[https://digital-cow-hut-umber.vercel.app/api/v1/orders]
+- Route: [https://cow-hut-as-4.vercel.app/api/v1/orders/6177a5b87d32123f08d2f5d4] (GET)
