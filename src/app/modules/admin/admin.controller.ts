@@ -1,7 +1,7 @@
 import httpStatus from "http-status";
 import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
-import { IAdmin, ILoginAdminResponse } from "./admin.interfece";
+import { ILoginAdminResponse } from "./admin.interfece";
 import { Request, Response } from "express";
 import { AdminService } from "./admin.service";
 import config from "../../../config";
