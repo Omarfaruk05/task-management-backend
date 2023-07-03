@@ -13,6 +13,7 @@ import config from "../../../config";
 import { Secret } from "jsonwebtoken";
 import catchAsync from "../../../shared/catchAsync";
 import { IRefreshTokenResponse } from "../admin/admin.interfece";
+import { Admin } from "../admin/admin.model";
 
 const createUserService = async (payload: IUser): Promise<IUserResponse> => {
   if (payload.role === "buyer") {
@@ -83,7 +84,7 @@ const refreshTokenService = async (
   token: string
 ): Promise<IRefreshTokenResponse> => {
   let verifiedToken = null;
-  console.log(token);
+
   try {
     verifiedToken = jwtHelpers.verifyToken(
       token,
@@ -93,23 +94,43 @@ const refreshTokenService = async (
     throw new ApiError(httpStatus.FORBIDDEN, "Invalide Refresh Token");
   }
   //checking deleted user's refresh token
-  const { _id } = verifiedToken;
-  const isUserExist = await User.findOne(
-    { _id },
-    { _id: 1, phoneNumber: 1, password: 1, role: 1 }
-  ).lean();
-  console.log(isUserExist);
+  const { _id, role } = verifiedToken;
 
-  if (!isUserExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User does not exist.");
+  let newAccessToken = "";
+  if (role === "admin") {
+    const isUserExist = await Admin.findOne(
+      { _id },
+      { _id: 1, phoneNumber: 1, password: 1, role: 1 }
+    ).lean();
+
+    if (!isUserExist) {
+      throw new ApiError(httpStatus.NOT_FOUND, "User does not exist.");
+    }
+
+    //generate new token
+    newAccessToken = jwtHelpers.createToken(
+      { _id: isUserExist._id, role: isUserExist.role },
+      config.jwt.secret as Secret,
+      config.jwt.expires_in as string
+    );
   }
+  if (role === "buyer" || role === "seller") {
+    const isUserExist = await User.findOne(
+      { _id },
+      { _id: 1, phoneNumber: 1, password: 1, role: 1 }
+    ).lean();
 
-  //generate new token
-  const newAccessToken = jwtHelpers.createToken(
-    { _id: isUserExist._id, role: isUserExist.role },
-    config.jwt.secret as Secret,
-    config.jwt.expires_in as string
-  );
+    if (!isUserExist) {
+      throw new ApiError(httpStatus.NOT_FOUND, "User does not exist.");
+    }
+
+    //generate new token
+    newAccessToken = jwtHelpers.createToken(
+      { _id: isUserExist._id, role: isUserExist.role },
+      config.jwt.secret as Secret,
+      config.jwt.expires_in as string
+    );
+  }
 
   return {
     accessToken: newAccessToken,

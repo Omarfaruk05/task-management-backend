@@ -48,7 +48,6 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
-  console.log(req.cookies);
 
   const result = await AuthService.refreshTokenService(refreshToken);
 
@@ -63,7 +62,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IRefreshTokenResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Your login is successfull.",
+    message: "New access token generated successfully !",
     data: result,
   });
 });
