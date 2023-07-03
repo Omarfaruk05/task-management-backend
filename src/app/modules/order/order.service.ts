@@ -6,18 +6,29 @@ import { Order } from "./order.model";
 import mongoose from "mongoose";
 import { Cow } from "../cow/cow.model";
 
-const createOrderService = async (orderData: IOrder): Promise<IOrder> => {
+const createOrderService = async (
+  orderData: IOrder,
+  user: any
+): Promise<IOrder> => {
   const session = await mongoose.startSession();
 
-  const isBuyer = await User.findById(orderData.buyer);
+  //checking given buyer id is correct
+  if (orderData.buyer !== user._id) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "This is not your id");
+  }
 
+  //cheking available cow with cow id
   const avalibaleCow = await Cow.findById(orderData.cow);
+
   if (!avalibaleCow || avalibaleCow.label === "sold out") {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
       "This cow is not found or sold out."
     );
   }
+
+  // checking user is buyer
+  const isBuyer = await User.findById(orderData.buyer);
 
   if (isBuyer && isBuyer.budget <= avalibaleCow.price) {
     throw new ApiError(
@@ -116,7 +127,6 @@ const getSingleOrderService = async (
 
     return result;
   } else if (user.role === "admin") {
-    console.log(user.role);
     findData = null;
   }
 
