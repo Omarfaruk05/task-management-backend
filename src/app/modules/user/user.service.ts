@@ -7,8 +7,10 @@ const getAllUserService = async (): Promise<IUserResponse[] | null> => {
   return result;
 };
 
-const getSingleUserService = async (id: string): Promise<IUser | null> => {
-  const result = await User.findById(id);
+const getSingleUserService = async (
+  id: string
+): Promise<IUserResponse | null> => {
+  const result = await User.findById(id, { password: 0 });
 
   return result;
 };
