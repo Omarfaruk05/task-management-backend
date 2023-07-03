@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
 import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
-import { IUser } from "./user.interface";
 import httpStatus from "http-status";
 import { UserService } from "./user.service";
-import ApiError from "../../../errors/ApiError";
 
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   const result = await UserService.getAllUserService();
@@ -64,7 +62,7 @@ const getMyProfile = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "User's information retrieved successfully",
+    message: "User's information recived successfully",
     data: result,
   });
 });
@@ -80,7 +78,7 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "User's information retrieved successfully",
+    message: "User's information updated successfully",
     data: result,
   });
 });
