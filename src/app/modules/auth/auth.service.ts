@@ -11,7 +11,6 @@ import bcrypt from "bcrypt";
 import { jwtHelpers } from "../../../helpers/jwtHalpers";
 import config from "../../../config";
 import { Secret } from "jsonwebtoken";
-import catchAsync from "../../../shared/catchAsync";
 import { IRefreshTokenResponse } from "../admin/admin.interfece";
 import { Admin } from "../admin/admin.model";
 
@@ -61,13 +60,14 @@ const loginUserService = async (
     throw new ApiError(httpStatus.UNAUTHORIZED, "Password is incorrect.");
   }
 
-  //token generating
+  // generating access token
   const accessToken = jwtHelpers.createToken(
     { _id: isUserExist?._id, role: isUserExist.role },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
 
+  // generating refresh token
   const refreshToken = jwtHelpers.createToken(
     { _id: isUserExist?._id, role: isUserExist.role },
     config.jwt.refresh_secret as Secret,
@@ -107,7 +107,7 @@ const refreshTokenService = async (
       throw new ApiError(httpStatus.NOT_FOUND, "User does not exist.");
     }
 
-    //generate new token
+    //generate new access token
     newAccessToken = jwtHelpers.createToken(
       { _id: isUserExist._id, role: isUserExist.role },
       config.jwt.secret as Secret,
@@ -124,7 +124,7 @@ const refreshTokenService = async (
       throw new ApiError(httpStatus.NOT_FOUND, "User does not exist.");
     }
 
-    //generate new token
+    //generate new access token
     newAccessToken = jwtHelpers.createToken(
       { _id: isUserExist._id, role: isUserExist.role },
       config.jwt.secret as Secret,
