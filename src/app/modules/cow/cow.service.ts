@@ -110,7 +110,7 @@ const updateCowService = async (
   user: any
 ): Promise<ICow | null> => {
   const { _id } = user;
-  const cow = await Cow.findOne({ seller: _id });
+  const cow = await Cow.findOne({ _id: id, seller: _id });
 
   if (!cow) {
     throw new ApiError(
@@ -139,7 +139,7 @@ const deleteCowService = async (
   user: any
 ): Promise<ICow | null> => {
   const { _id } = user;
-  const cow = await Cow.findOne({ seller: _id });
+  const cow = await Cow.findOne({ _id: id, seller: _id });
 
   if (!cow) {
     throw new ApiError(
