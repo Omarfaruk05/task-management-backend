@@ -11,9 +11,7 @@ import bcrypt from "bcrypt";
 import { jwtHelpers } from "../../../helpers/jwtHalpers";
 import config from "../../../config";
 import { Secret } from "jsonwebtoken";
-import { IRefreshTokenResponse } from "../admin/admin.interfece";
-import { Admin } from "../admin/admin.model";
-
+import { IRefreshTokenResponse } from "./auth.interface";
 const createUserService = async (payload: IUser): Promise<IUserResponse> => {
   if (payload.role === "buyer") {
     payload.income = 0;
@@ -97,24 +95,8 @@ const refreshTokenService = async (
   const { _id, role } = verifiedToken;
 
   let newAccessToken = "";
-  if (role === "admin") {
-    const isUserExist = await Admin.findOne(
-      { _id },
-      { _id: 1, phoneNumber: 1, password: 1, role: 1 }
-    ).lean();
 
-    if (!isUserExist) {
-      throw new ApiError(httpStatus.NOT_FOUND, "User does not exist.");
-    }
-
-    //generate new access token
-    newAccessToken = jwtHelpers.createToken(
-      { _id: isUserExist._id, role: isUserExist.role },
-      config.jwt.secret as Secret,
-      config.jwt.expires_in as string
-    );
-  }
-  if (role === "buyer" || role === "seller") {
+  if (role === "Renter" || role === "Owner") {
     const isUserExist = await User.findOne(
       { _id },
       { _id: 1, phoneNumber: 1, password: 1, role: 1 }
