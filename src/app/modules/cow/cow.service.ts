@@ -3,10 +3,7 @@ import ApiError from "../../../errors/ApiError";
 import { User } from "../user/user.model";
 import { ICow, ICowFilters } from "./cow.interface";
 import { Cow } from "./cow.model";
-import { IPaginationOptions } from "../../../interfaces/pagination.interface";
-import { IGenericResponse } from "../../../interfaces/common";
 import { cowSearchableFields } from "./cow.constant";
-import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
 
 // creat cow service
@@ -24,10 +21,7 @@ const createCowService = async (cowData: ICow): Promise<ICow> => {
 };
 
 // get all cow service
-const getAllCowsService = async (
-  filters: ICowFilters,
-  paginationOptions: IPaginationOptions
-): Promise<IGenericResponse<ICow[]>> => {
+const getAllCowsService = async (filters: ICowFilters): Promise<ICow[]> => {
   const { searchTerm, minPrice, maxPrice, ...filtersData } = filters;
 
   const andConditions = [];
@@ -66,31 +60,11 @@ const getAllCowsService = async (
     });
   }
 
-  const { page, limit, skip, sortBy, sortOrder } =
-    paginationHelpers.calculatePagination(paginationOptions);
-
-  const sortConditions: { [key: string]: SortOrder } = {};
-  if (sortBy && sortOrder) {
-    sortConditions[sortBy] = sortOrder;
-  }
-
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
+  const result = await Cow.find(whereConditions);
 
-  const total = await Cow.countDocuments();
-  const result = await Cow.find(whereConditions)
-    .sort(sortConditions)
-    .skip(skip)
-    .limit(limit);
-
-  return {
-    meta: {
-      page,
-      limit,
-      total,
-    },
-    data: result,
-  };
+  return result;
 };
 
 // creat single cow service
