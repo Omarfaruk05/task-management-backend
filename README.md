@@ -5,7 +5,9 @@
 ## Auth(User)
 
 - Route: [https://cow-hut-as-4.vercel.app/api/v1/auth/login] (POST)
+
 - Route: [https://cow-hut-as-4.vercel.app/api/v1/auth/signup] (POST)
+
 - Route: [https://cow-hut-as-4.vercel.app/api/v1/auth/refresh-token] (POST)
 
 ## Auth(Admin)
