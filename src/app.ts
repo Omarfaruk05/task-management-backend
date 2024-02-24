@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/", routes);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Wellcome to Cow Hut");
+  res.send("Wellcome to Task Management");
 });
 
 app.use(globalErrorHandler);
