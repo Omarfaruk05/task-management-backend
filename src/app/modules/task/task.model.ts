@@ -13,6 +13,10 @@ const taskSchema = new Schema<ITask, TaskModel>(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      default: "pending",
+    },
     dueDate: {
       type: String,
       required: true,

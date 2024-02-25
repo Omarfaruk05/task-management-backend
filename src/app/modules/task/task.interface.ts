@@ -4,6 +4,7 @@ import { IUser } from "../user/user.interface";
 export type ITask = {
   title: string;
   description: string;
+  status: "pending" | "complete";
   dueDate: string;
   user: Types.ObjectId | IUser;
 };

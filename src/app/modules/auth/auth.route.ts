@@ -15,7 +15,7 @@ router.post(
 // user login route
 router.post(
   "/login",
-  validateRequest(AuthValidation.userLoginZodSchema),
+
   AuthController.loginUser
 );
 

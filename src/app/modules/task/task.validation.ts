@@ -8,7 +8,7 @@ const createTaskZodSchema = z.object({
     description: z.string({
       required_error: "Description is required.",
     }),
-    deuDate: z.string({
+    dueDate: z.string({
       required_error: "Due Date is required.",
     }),
     user: z.string({

@@ -58,6 +58,7 @@ const getSingleTask = catchAsync(async (req: Request, res: Response) => {
 const updateTask = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const updatedData = req.body;
+  console.log(updatedData);
   const user = req.user;
   const result = await TaskService.updateTaskService(id, updatedData, user);
 
