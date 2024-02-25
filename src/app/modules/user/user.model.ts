@@ -5,44 +5,27 @@ import config from "../../../config";
 
 const userSchema = new Schema<IUser, UserModel>(
   {
-    phoneNumber: {
+    name: {
       type: String,
       required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
     },
     role: {
       type: String,
       required: true,
+      default: "user",
     },
     password: {
       type: String,
       required: true,
     },
-    name: {
-      required: true,
-      type: {
-        firstName: {
-          type: String,
-          required: true,
-        },
-        lastName: {
-          type: String,
-          required: true,
-        },
-      },
-    },
+
     address: {
       type: String,
-      required: true,
-    },
-    budget: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    income: {
-      type: Number,
-      required: true,
-      default: 0,
     },
   },
   {

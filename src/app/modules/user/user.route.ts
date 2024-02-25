@@ -12,14 +12,14 @@ router.get("/", auth(ENUM_ROLE.ADMIN), UserController.getAllUsers);
 //get my profile route
 router.get(
   "/my-profile",
-  auth(ENUM_ROLE.SELLER, ENUM_ROLE.BUYER),
+  auth(ENUM_ROLE.USER, ENUM_ROLE.ADMIN),
   UserController.getMyProfile
 );
 
 //update my profile route
 router.patch(
   "/my-profile",
-  auth(ENUM_ROLE.SELLER, ENUM_ROLE.BUYER),
+  auth(ENUM_ROLE.USER, ENUM_ROLE.ADMIN),
   validateRequest(UserValidation.updateUserZodSchema),
   UserController.updateMyProfile
 );
