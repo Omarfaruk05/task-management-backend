@@ -7,7 +7,7 @@ export type UserName = {
 
 export type IUser = {
   phoneNumber: string;
-  role: "seller" | "buyer";
+  role: "user" | "admin";
   password: string;
   name: UserName;
   address: string;
@@ -17,7 +17,7 @@ export type IUser = {
 
 export type IUserResponse = {
   phoneNumber: string;
-  role: "seller" | "buyer";
+  role: "user" | "admin";
   password?: string;
   name: UserName;
   address: string;
