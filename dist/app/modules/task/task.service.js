@@ -70,14 +70,13 @@ const getSingleTaskService = (id) => __awaiter(void 0, void 0, void 0, function*
 const updateTaskService = (id, updatedData, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { _id } = user;
     const task = yield task_model_1.Task.findOne({ _id: id, user: _id });
-    console.log(task);
     if (!task) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Can't update the task because this is not task task.");
     }
-    const result = yield task_model_1.Task.findOneAndUpdate({ _id: id }, updatedData, {
+    const filter = { _id: id };
+    const result = yield task_model_1.Task.findOneAndUpdate(filter, updatedData, {
         new: true,
     });
-    console.log(result);
     return result;
 });
 // delete task service

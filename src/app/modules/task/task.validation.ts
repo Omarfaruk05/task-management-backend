@@ -22,7 +22,7 @@ const updateTaskZodSchema = z.object({
     title: z.string().optional(),
     description: z.string().optional(),
     deuDate: z.string().optional(),
-    user: z.string().optional(),
+    status: z.string().optional(),
   }),
 });
 

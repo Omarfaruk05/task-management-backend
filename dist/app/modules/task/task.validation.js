@@ -23,7 +23,7 @@ const updateTaskZodSchema = zod_1.z.object({
         title: zod_1.z.string().optional(),
         description: zod_1.z.string().optional(),
         deuDate: zod_1.z.string().optional(),
-        user: zod_1.z.string().optional(),
+        status: zod_1.z.string().optional(),
     }),
 });
 exports.TaskValidation = {

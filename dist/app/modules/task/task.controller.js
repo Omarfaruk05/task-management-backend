@@ -70,8 +70,8 @@ const getSingleTask = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
 // update task controller
 const updateTask = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const updatedData = req.body;
-    console.log(updatedData);
+    const data = req.body;
+    const updatedData = data === null || data === void 0 ? void 0 : data.updatedTaskData;
     const user = req.user;
     const result = yield task_service_1.TaskService.updateTaskService(id, updatedData, user);
     (0, sendResponse_1.default)(res, {

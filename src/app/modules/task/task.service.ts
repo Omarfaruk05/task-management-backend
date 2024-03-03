@@ -66,7 +66,6 @@ const updateTaskService = async (
 ): Promise<ITask | null> => {
   const { _id } = user;
   const task = await Task.findOne({ _id: id, user: _id });
-  console.log(task);
 
   if (!task) {
     throw new ApiError(
@@ -74,11 +73,10 @@ const updateTaskService = async (
       "Can't update the task because this is not task task."
     );
   }
-
-  const result = await Task.findOneAndUpdate({ _id: id }, updatedData, {
+  const filter = { _id: id };
+  const result = await Task.findOneAndUpdate(filter, updatedData, {
     new: true,
   });
-  console.log(result);
   return result;
 };
 
